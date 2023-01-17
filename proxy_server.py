@@ -1,5 +1,7 @@
 import socket
 
+# code used from CMPUT 404 lab 2, 2023
+
 BYTES_TO_READ = 4096
 HOST = "127.0.0.1"
 PORT = 8080
