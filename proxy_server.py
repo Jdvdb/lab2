@@ -1,4 +1,5 @@
 import socket
+from threading import Thread
 
 # code used from CMPUT 404 lab 2, 2023
 
@@ -54,4 +55,20 @@ def start_server():
         handle_connection(conn, addr)
 
 
-start_server()
+def start_threaded_server():
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
+
+        server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+
+        # bind socket to address
+        server_socket.bind((HOST, PORT))
+        # set to listening mode
+        server_socket.listen(2)
+
+        while True:
+            conn, addr = server_socket.accept()
+            thread = Thread(target=handle_connection, args=(conn, addr))
+            thread.run()
+
+
+start_threaded_server()
